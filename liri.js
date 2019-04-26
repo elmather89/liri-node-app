@@ -46,19 +46,19 @@ switch (action) {
 
 function findConcert() {
     axios.get("https://rest.bandsintown.com/artists/" + input + "/events?app_id=codingbootcamp")
-    .then(function(response) {
-        // console.log("line 50 " + response.data[2].venue.name);
+        .then(function (response) {
+            // console.log("line 50 " + response.data[2].venue.name);
 
-        for (var i = 0; i < response.data.length; i++) {
-            // console.log(response.data[i].venue.name + ", " + response.data[i].venue.city + ", " + 
-            // response.data[i].venue.region + ", " + response.data[i].datetime);
-            console.log("=================================================================");
-            console.log(response.data[i].venue.name);
-            console.log(response.data[i].venue.city + ", " + response.data[i].venue.region);
-            console.log(response.data[i].datetime);
-            console.log("=================================================================");
-        };
-    });
+            for (var i = 0; i < response.data.length; i++) {
+                // console.log(response.data[i].venue.name + ", " + response.data[i].venue.city + ", " + 
+                // response.data[i].venue.region + ", " + response.data[i].datetime);
+                console.log("=================================================================");
+                console.log(response.data[i].venue.name);
+                console.log(response.data[i].venue.city + ", " + response.data[i].venue.region);
+                console.log(response.data[i].datetime);
+                console.log("=================================================================");
+            };
+        });
 };
 
 function findSong() {
@@ -67,9 +67,19 @@ function findSong() {
 
 function findMovie() {
     axios.get("http://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=trilogy")
-    .then(function(response) {
-        console.log(response);
-    });
+        .then(function (response) {
+            if (!input) {
+                console.log("If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/");
+                console.log("It's on Netflix.");
+            }
+            else {
+                console.log("=================================================================");
+                console.log(response.data.Title);
+                console.log(response.data.Year);
+                console.log(response.data.Plot);
+                console.log("=================================================================");
+            }
+        });
 };
 
 function doAnything() {
