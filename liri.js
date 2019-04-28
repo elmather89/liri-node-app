@@ -24,7 +24,7 @@ var inquirer = require("inquirer");
 //     {
 //         type: "list",
 //         message: "What would you like to do?",
-//         choices: ["concert-this", "find-song", "find-movie", "do-what-it-says"],
+//         choices: ["find-concert", "find-song", "find-movie", "do-what-it-says"],
 //         name: "action"
 //     }.then(function(answers) {
 //         var newSearchObject = new searchObject(answers.name);
@@ -54,22 +54,33 @@ for (var i = 3; i < clString.length; i++) {
 };
 
 // switch case to trigger corresponding function
-switch (action) {
-    case "concert-this":
-        findConcert();
-        break;
-
-    case "find-song":
-        findSong();
-        break;
-
-    case "find-movie":
-        findMovie();
-        break;
-
-    case "find-tweets":
-        doAnything();
-        break;
+if (!action) {
+    console.log("===================================================================");
+    console.log("You can create 4 different types of searches. Look for concerts by your favorite artist, find information on a song, find data about a movie, or find tweets that happened near your coordinates.");
+    console.log("Try typing commands like this,");
+    console.log("\n  'node liri.js find-concert neko case'");
+    console.log("\n  'node liri.js find-song wide open spaces'");
+    console.log("\n  'node liri.js find-movie old yeller'");
+    console.log("\n  'node liri.js find-tweets 39.052906 -94.60982849999999'\n");
+    console.log("===================================================================");
+} else {
+    switch (action) {
+        case "find-concert":
+            findConcert();
+            break;
+    
+        case "find-song":
+            findSong();
+            break;
+    
+        case "find-movie":
+            findMovie();
+            break;
+    
+        case "find-tweets":
+            doAnything();
+            break;
+    }    
 }
 
 function findConcert() {
@@ -181,7 +192,7 @@ function doAnything() {
                     console.log("  Unauthorized/Private location: " + response.data[i].locationPrivate);
                     console.log("======================== 🦆 ========================");
                 }
-                console.log("\n\n Now go outside ASAP. You've been on the computer for too long....\n\n")
+                console.log("\n\n Now go outside and commune with NATURE already. You've been on the computer for too long....\n\n")
         })
         .catch(function (err) {
             // console.log(err);
