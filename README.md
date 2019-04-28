@@ -17,4 +17,4 @@
 ## Watch this short video to understand how it works:
 ![Screen recording of functionality](https://youtu.be/upfLsDr5vj0)
 
-![Screen recording] https://youtu.be/upfLsDr5vj0
+![Screen recording](https://youtu.be/upfLsDr5vj0)
