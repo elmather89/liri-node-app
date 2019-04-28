@@ -5,6 +5,7 @@ var axios = require("axios");
 var moment = require("moment");
 var Spotify = require("node-spotify-api");
 var Tweeter = require("ebird");
+var geolocation = require("geolocation");
 var inquirer = require("inquirer");
 
 
@@ -146,18 +147,30 @@ function findMovie() {
 };
 
 function doAnything() {
-    var instance = new Tweeter(keys.birds);
+    // geolocation
+    // geolocation.getCurrentPosition(function (err, position) {
+    //     console.log(position);
+    // })
+    var geoLat = 39.052906;
+    var geoLon = -94.60982849999999;
 
-    // Authorize with an ebird username and password
-    instance.auth(username, password).then(() => {
-        // Once authorized, query for regions or another metric.  
-        instance.regions(input).then(results => {
-            console.log('Regions', JSON.stringify(results));
-        });
+    var ebird = new Tweeter(keys.birds);
+    // console.log(ebird);
 
-        // Request countries in paralle with regions.
-        instance.countries().then(results => {
-            console.log('Counties', JSON.stringify(results));
-        });
-    });
+    // working:     axios.get("https://ebird.org/ws2.0/ref/hotspot/geo?lat=" + `${geoLat}` + "&lng=" + `${geoLon}` + "&fmt=json&sort=species&key=" + `${keys.birds.secret}`)
+    axios.get("https://ebird.org/ws2.0/data/obs/geo/recent?lat=" + `${geoLat}` + "&lng=" + `${geoLon}` + "&fmt=json&sort=species&key=" + `${keys.birds.secret}`)
+        .then(function (response) {
+            // console.log(response);
+            // console.log(response.data[0]);
+
+            for (var i = 0; i < response.data.length; i++) {
+                console.log("======================== 🦆 ========================");
+                console.log(response.data[i].comName + " x " + response.data[i].howMany);
+                console.log("\n Scientific name: " + response.data[i].sciName);
+                console.log(" Observation date: " + response.data[i].obsDt);
+                console.log(" Coordinates: " + response.data[i].lat + ", " + response.data[i].lng);
+                console.log(" Unauthorized/Private location: " + response.data[i].locationPrivate);
+                console.log("======================== 🦆 ========================");
+            }
+        })
 };

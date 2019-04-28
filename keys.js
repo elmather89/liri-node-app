@@ -6,6 +6,5 @@ exports.spotify = {
 };
 
 exports.birds = {
-  username: process.env.BIRD_ID,
-  password: process.env.BIRD_KEY
+  secret: process.env.BIRD_KEY
 };
