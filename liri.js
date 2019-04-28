@@ -67,7 +67,7 @@ switch (action) {
         findMovie();
         break;
 
-    case "see-tweets":
+    case "find-tweets":
         doAnything();
         break;
 }
@@ -151,26 +151,43 @@ function doAnything() {
     // geolocation.getCurrentPosition(function (err, position) {
     //     console.log(position);
     // })
-    var geoLat = 39.052906;
-    var geoLon = -94.60982849999999;
+
+    // valid coordinates to test with, below
+    // var geoLat = 39.052906;
+    // var geoLon = -94.60982849999999;
+
+    var geoLat = process.argv[3];
+    var geoLon = process.argv[4];
+    // console.log(geoLat, geoLon);
 
     var ebird = new Tweeter(keys.birds);
     // console.log(ebird);
 
+    queryURL = "https://ebird.org/ws2.0/data/obs/geo/recent?lat=" + `${geoLat}` + "&lng=" + `${geoLon}` + "&fmt=json&sort=species&key=" + `${keys.birds.secret}`;
     // working:     axios.get("https://ebird.org/ws2.0/ref/hotspot/geo?lat=" + `${geoLat}` + "&lng=" + `${geoLon}` + "&fmt=json&sort=species&key=" + `${keys.birds.secret}`)
-    axios.get("https://ebird.org/ws2.0/data/obs/geo/recent?lat=" + `${geoLat}` + "&lng=" + `${geoLon}` + "&fmt=json&sort=species&key=" + `${keys.birds.secret}`)
+    axios.get(queryURL)
         .then(function (response) {
+            console.log(queryURL);
+            console.log(geoLat, geoLon);
             // console.log(response);
             // console.log(response.data[0]);
 
-            for (var i = 0; i < response.data.length; i++) {
-                console.log("======================== 🦆 ========================");
-                console.log(response.data[i].comName + " x " + response.data[i].howMany);
-                console.log("\n Scientific name: " + response.data[i].sciName);
-                console.log(" Observation date: " + response.data[i].obsDt);
-                console.log(" Coordinates: " + response.data[i].lat + ", " + response.data[i].lng);
-                console.log(" Unauthorized/Private location: " + response.data[i].locationPrivate);
-                console.log("======================== 🦆 ========================");
-            }
+                for (var i = 0; i < response.data.length; i++) {
+                    console.log("======================== 🦆 ========================");
+                    console.log(response.data[i].comName + " x " + response.data[i].howMany);
+                    console.log("\n  Scientific name: " + response.data[i].sciName);
+                    console.log("  Observation date: " + response.data[i].obsDt);
+                    console.log("  Coordinates: " + response.data[i].lat + ", " + response.data[i].lng);
+                    console.log("  Unauthorized/Private location: " + response.data[i].locationPrivate);
+                    console.log("======================== 🦆 ========================");
+                }
+                console.log("\n\n Now go outside ASAP. You've been on the computer for too long....\n\n")
         })
+        .catch(function (err) {
+            // console.log(err);
+            console.log("======================== 🦆 ========================");
+            console.log("Hmmmm, we had trouble finding your coordinates.");
+            console.log("Try typing your latitude and longitude like this: 'node liri.js find-tweets 39.052906 -94.60982849999999' ");
+            console.log("======================== 🦆 ========================");
+        });
 };
