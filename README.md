@@ -16,3 +16,5 @@
 
 ## Watch this short video to understand how it works:
 ![Screen recording of functionality](https://youtu.be/upfLsDr5vj0)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/upfLsDr5vj0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
