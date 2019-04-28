@@ -3,7 +3,35 @@ require("dotenv").config();
 var keys = require("./keys.js");
 var axios = require("axios");
 var moment = require("moment");
-var Spotify = require('node-spotify-api');
+var Spotify = require("node-spotify-api");
+var Tweeter = require("ebird");
+var inquirer = require("inquirer");
+
+
+// trying to get the actions to be selectable from an initial prompt =====================================
+// new search object
+// function searchObject(name) {
+//     this.name = name;
+// };
+
+// // printInfo method
+// searchObject.prototype.printInfo = function() {
+//     console.log("line 16 " + this.name);
+// };
+
+// inquirer.prompt([
+//     {
+//         type: "list",
+//         message: "What would you like to do?",
+//         choices: ["concert-this", "find-song", "find-movie", "do-what-it-says"],
+//         name: "action"
+//     }.then(function(answers) {
+//         var newSearchObject = new searchObject(answers.name);
+//         newSearchObject.printInfo();
+//     })
+// ]);
+
+// come back to this ^^^ ===========================================
 
 // command line input variables
 var action = process.argv[2];
@@ -38,7 +66,7 @@ switch (action) {
         findMovie();
         break;
 
-    case "do-what-it-says":
+    case "see-tweets":
         doAnything();
         break;
 }
@@ -74,24 +102,24 @@ function findSong() {
     var spotify = new Spotify(keys.spotify);
 
     spotify.search({ type: 'track', query: input })
-    .then(function(response) {
-        var songData = response.tracks.items;
+        .then(function (response) {
+            var songData = response.tracks.items;
 
-        console.log("======================== ♩ ♬ ♩ ♬ ========================");
-        // console.log(songData[0]);
-        console.log("Artist: " + songData[0].album.artists[0].name);
-        console.log("Song: " + songData[0].name);
-        console.log("From album: " + songData[0].album.name);
-        console.log("Tracks on album: " + songData[0].album.total_tracks);
-        console.log("Spotify URL: " + songData[0].album.external_urls.spotify);
-        console.log("======================== ♩ ♬ ♩ ♬ ========================");
-        // console.log(response.tracks.items[0].album.artists);
-        // console.log(response.tracks.items[0].artists);
-        // console.log("line 69: " + response.tracks.items[0].artists.name);
-    })
-    .catch(function(err) {
-        console.log(err);
-    });
+            console.log("======================== ♩ ♬ ♩ ♬ ========================");
+            // console.log(songData[0]);
+            console.log("Artist: " + songData[0].album.artists[0].name);
+            console.log("Song: " + songData[0].name);
+            console.log("From album: " + songData[0].album.name);
+            console.log("Tracks on album: " + songData[0].album.total_tracks);
+            console.log("Spotify URL: " + songData[0].album.external_urls.spotify);
+            console.log("======================== ♩ ♬ ♩ ♬ ========================");
+            // console.log(response.tracks.items[0].album.artists);
+            // console.log(response.tracks.items[0].artists);
+            // console.log("line 69: " + response.tracks.items[0].artists.name);
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
 };
 
 function findMovie() {
@@ -102,7 +130,7 @@ function findMovie() {
                 console.log("It's on Netflix.");
             }
             else {
-                console.log("=================================================================");
+                console.log("======================== 🎬 ========================");
                 // console.log(response.data);
                 console.log(response.data.Title + ", " + response.data.Year);
                 console.log(response.data.Plot);
@@ -112,11 +140,24 @@ function findMovie() {
                 console.log("  Country: " + response.data.Country);
                 console.log("  Language: " + response.data.Language);
                 console.log("  Actors: " + response.data.Actors);
-                console.log("=================================================================");
+                console.log("======================== 🎬 ========================");
             }
         });
 };
 
 function doAnything() {
-    //.
+    var instance = new Tweeter(keys.birds);
+
+    // Authorize with an ebird username and password
+    instance.auth(username, password).then(() => {
+        // Once authorized, query for regions or another metric.  
+        instance.regions(input).then(results => {
+            console.log('Regions', JSON.stringify(results));
+        });
+
+        // Request countries in paralle with regions.
+        instance.countries().then(results => {
+            console.log('Counties', JSON.stringify(results));
+        });
+    });
 };
