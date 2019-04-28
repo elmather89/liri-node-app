@@ -4,7 +4,6 @@ var keys = require("./keys.js");
 var axios = require("axios");
 var moment = require("moment");
 var Spotify = require('node-spotify-api');
-// var spotify = new Spotify(keys.spotify);
 
 // command line input variables
 var action = process.argv[2];
@@ -31,7 +30,7 @@ switch (action) {
         findConcert();
         break;
 
-    case "spotify-this-song":
+    case "find-song":
         findSong();
         break;
 
@@ -62,7 +61,23 @@ function findConcert() {
 };
 
 function findSong() {
-    //.
+    var spotify = new Spotify(keys.spotify);
+
+    spotify.search({ type: 'track', query: input })
+    .then(function(response) {
+        var songData = response.tracks.items;
+
+        console.log("=================================================================");
+        console.log(songData[0].artists);
+        // console.log(response.tracks.items[0].external_urls);
+        console.log("=================================================================");
+        // console.log(response.tracks.items[0].album.artists);
+        // console.log(response.tracks.items[0].artists);
+        // console.log("line 69: " + response.tracks.items[0].artists.name);
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
 };
 
 function findMovie() {
