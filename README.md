@@ -15,6 +15,4 @@
 'node liri.js find-tweets 39.052906 -94.60982849999999' will print tweets happening near those coordinates!
 
 ## Watch this short video to understand how it works:
-![Screen recording of functionality](https://youtu.be/upfLsDr5vj0)
-
 [Screen recording](https://youtu.be/upfLsDr5vj0)
