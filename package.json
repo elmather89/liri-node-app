@@ -21,6 +21,7 @@
     "axios": "^0.18.0",
     "dotenv": "^7.0.0",
     "ebird": "^1.0.8",
+    "fs": "0.0.1-security",
     "geolocation": "^0.2.0",
     "inquirer": "^6.3.1",
     "moment": "^2.24.0",

@@ -7,6 +7,7 @@ var Spotify = require("node-spotify-api");
 var Tweeter = require("ebird");
 var geolocation = require("geolocation");
 var inquirer = require("inquirer");
+var fs = require("fs");
 
 
 // trying to get the actions to be selectable from an initial prompt =====================================
@@ -61,26 +62,31 @@ if (!action) {
     console.log("\n  'node liri.js find-concert neko case'");
     console.log("\n  'node liri.js find-song wide open spaces'");
     console.log("\n  'node liri.js find-movie old yeller'");
-    console.log("\n  'node liri.js find-tweets 39.052906 -94.60982849999999'\n");
+    console.log("\n  'node liri.js find-tweets 39.052906 -94.60982849999999' ");
+    console.log("\n  'node liri.js do-anything'\n");
     console.log("===================================================================");
 } else {
     switch (action) {
         case "find-concert":
             findConcert();
             break;
-    
+
         case "find-song":
             findSong();
             break;
-    
+
         case "find-movie":
             findMovie();
             break;
-    
+
         case "find-tweets":
+            tweetMe();
+            break;
+
+        case "do-what-it-says":
             doAnything();
             break;
-    }    
+    }
 }
 
 function findConcert() {
@@ -130,7 +136,8 @@ function findSong() {
             // console.log("line 69: " + response.tracks.items[0].artists.name);
         })
         .catch(function (err) {
-            console.log(err);
+            console.log("Error");
+            console.log("Try 'node liri.js find-song wide open spaces' ");
         });
 };
 
@@ -157,7 +164,7 @@ function findMovie() {
         });
 };
 
-function doAnything() {
+function tweetMe() {
     // geolocation
     // geolocation.getCurrentPosition(function (err, position) {
     //     console.log(position);
@@ -183,16 +190,16 @@ function doAnything() {
             // console.log(response);
             // console.log(response.data[0]);
 
-                for (var i = 0; i < response.data.length; i++) {
-                    console.log("======================== 🦆 ========================");
-                    console.log(response.data[i].comName + " x " + response.data[i].howMany);
-                    console.log("\n  Scientific name: " + response.data[i].sciName);
-                    console.log("  Observation date: " + response.data[i].obsDt);
-                    console.log("  Coordinates: " + response.data[i].lat + ", " + response.data[i].lng);
-                    console.log("  Unauthorized/Private location: " + response.data[i].locationPrivate);
-                    console.log("======================== 🦆 ========================");
-                }
-                console.log("\n\n Now go outside and commune with NATURE already. You've been on the computer for too long....\n\n")
+            for (var i = 0; i < response.data.length; i++) {
+                console.log("======================== 🦆 ========================");
+                console.log(response.data[i].comName + " x " + response.data[i].howMany);
+                console.log("\n  Scientific name: " + response.data[i].sciName);
+                console.log("  Observation date: " + response.data[i].obsDt);
+                console.log("  Coordinates: " + response.data[i].lat + ", " + response.data[i].lng);
+                console.log("  Unauthorized/Private location: " + response.data[i].locationPrivate);
+                console.log("======================== 🦆 ========================");
+            }
+            console.log("\n\n Now go outside and commune with NATURE already. You've been on the computer for too long....\n\n")
         })
         .catch(function (err) {
             // console.log(err);
@@ -201,4 +208,20 @@ function doAnything() {
             console.log("Try typing your latitude and longitude like this: 'node liri.js find-tweets 39.052906 -94.60982849999999' ");
             console.log("======================== 🦆 ========================");
         });
+};
+
+function doAnything() {
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (error) {
+            console.log("Hmmmmm....");
+            console.log(error);
+        }
+        else {
+            // console.log(data);
+            var dataSplit = data.split(",");
+            console.log(dataSplit[0]);
+            console.log(dataSplit[1]);
+        }
+        // findSong();
+    });
 };
