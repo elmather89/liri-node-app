@@ -15,4 +15,14 @@ This app let's you make 4 types of searches straight from the command line.
     > `node liri.js find-tweets 39.052906 -94.60982849999999` 
     >> will print tweets happening near those coordinates!
 
+### Built with:
+* Node Spotify API
+* Bands in Town API
+* OMDB API
+* Axios package
+* Moment js
+* DotEnv
+* Node
+* Javascript / jQuery
+
 ### Watch this short video to see how it works: [Screen recording](https://youtu.be/upfLsDr5vj0)
